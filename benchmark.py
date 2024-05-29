@@ -127,16 +127,16 @@ def main():
     
     res = {}
 
-    from wavkan.layer import WaveletKanLayer
+    from wavkan.layer import MexhatWaveletKanLayer
     from wavkan.baseline_net import KANLinear
 
     if args.method == 'cu' or args.method == 'all':
         model = nn.Sequential(
-            WaveletKanLayer(args.inp_size, args.hid_size),
-            WaveletKanLayer(args.hid_size, args.hid_size),
-            WaveletKanLayer(args.hid_size, args.hid_size),
-            WaveletKanLayer(args.hid_size, args.hid_size),
-            WaveletKanLayer(args.hid_size, 1),
+            MexhatWaveletKanLayer(args.inp_size, args.hid_size),
+            MexhatWaveletKanLayer(args.hid_size, args.hid_size),
+            MexhatWaveletKanLayer(args.hid_size, args.hid_size),
+            MexhatWaveletKanLayer(args.hid_size, args.hid_size),
+            MexhatWaveletKanLayer(args.hid_size, 1),
         )
         model.to('cuda')
         res['cuda-gpu'] = benchmark(dataset, 'cuda', args.batch_size, loss_fn, model, args.reps)
