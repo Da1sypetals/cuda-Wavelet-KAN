@@ -17,6 +17,8 @@ orig-gpu  |    522.00 ms  |   1461.29 ms  |      5.53 GB  |      5.53 GB  |     
 
 - There are no optimizations in this implementation. I a cuda beginner and willing to receive optimization suggestions : )
 
+- Currently Mexican hat and Morlet are implemented.
+
 ## Start
 
 1. Install
