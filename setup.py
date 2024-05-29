@@ -19,6 +19,11 @@ setup(
              './baseline_cpp/wav_cuda.cu',]
         ),
         CUDAExtension(
+            'optim_mexhat_ops', # operator name
+            ['./cpp/wav.cpp',
+             './cpp/wav_cuda.cu',]
+        ),
+        CUDAExtension(
             'morlet_ops', # operator name
             ['./morlet/morlet.cpp',
              './morlet/morlet_cuda.cu',]

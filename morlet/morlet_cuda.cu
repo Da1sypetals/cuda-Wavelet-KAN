@@ -30,7 +30,7 @@ __global__ void fwd_kernel(const torch::PackedTensorAccessor64<float, 2> x,
         int iout = (idx / in_feats) % out_feats;
         int iin = idx % in_feats;
 
-        /* optimization: should not access memory one time for each thread since some data are shared */
+        /* optimization: should not access global memory one time for each thread since some data are shared */
         float x_val = x[ibatch][iin];
         float s = scale[iout][iin];
         float b = bias[iout][iin];

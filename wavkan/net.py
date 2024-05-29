@@ -1,7 +1,7 @@
 import torch
 import torch.nn as nn
-from .layer import MorletWaveletKanLayer as Layer
-# from .layer import MexhatWaveletKanLayer as Layer
+# from .layer import MorletWaveletKanLayer as Layer
+from .layer import MexhatWaveletKanLayer as Layer
 
 
 class Net(nn.Module):

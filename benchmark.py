@@ -100,8 +100,8 @@ def _create_parser():
     parser.add_argument('--output-path', default='times.txt', type=str)
     parser.add_argument('--method', choices=['cu', 'orig', 'opt', 'all'], type=str)
     parser.add_argument('--batch-size', type=int, default=256)
-    parser.add_argument('--inp-size', type=int, default=512, help='The dimension of the input variables.')
-    parser.add_argument('--hid-size', type=int, default=512, help='The dimension of the hidden layer.')
+    parser.add_argument('--inp-size', type=int, default=1024, help='The dimension of the input variables.')
+    parser.add_argument('--hid-size', type=int, default=1024, help='The dimension of the hidden layer.')
     parser.add_argument('--reps', type=int, default=10, help='Number of times to repeat execution and average.')
     parser.add_argument('--just-cuda', action='store_true', help='Whether to only execute the cuda version.')
     return parser
@@ -142,17 +142,17 @@ def main():
         res['cuda-gpu'] = benchmark(dataset, 'cuda', args.batch_size, loss_fn, model, args.reps)
         res['cuda-gpu']['params'], res['cuda-gpu']['train_params'] = count_params(model)
 
-    if args.method == 'orig' or args.method == 'all':
-        model = nn.Sequential(
-            KANLinear(args.inp_size, args.hid_size),
-            KANLinear(args.hid_size, args.hid_size),
-            KANLinear(args.hid_size, args.hid_size),
-            KANLinear(args.hid_size, args.hid_size),
-            KANLinear(args.hid_size, 1),
-        )
-        model.to('cuda')
-        res['orig-gpu'] = benchmark(dataset, 'cuda', args.batch_size, loss_fn, model, args.reps)
-        res['orig-gpu']['params'], res['orig-gpu']['train_params'] = count_params(model)
+    # if args.method == 'orig' or args.method == 'all':
+    #     model = nn.Sequential(
+    #         KANLinear(args.inp_size, args.hid_size),
+    #         KANLinear(args.hid_size, args.hid_size),
+    #         KANLinear(args.hid_size, args.hid_size),
+    #         KANLinear(args.hid_size, args.hid_size),
+    #         KANLinear(args.hid_size, 1),
+    #     )
+    #     model.to('cuda')
+    #     res['orig-gpu'] = benchmark(dataset, 'cuda', args.batch_size, loss_fn, model, args.reps)
+    #     res['orig-gpu']['params'], res['orig-gpu']['train_params'] = count_params(model)
     
     
 

@@ -42,7 +42,6 @@ for epoch in range(10):
     with tqdm(trainloader) as pbar:
         for i, (images, labels) in enumerate(pbar):
             images = images.view(-1, 28 * 28).to(device)
-            images = images.to(device)
             optimizer.zero_grad()
             output = model(images)
             # print('forward\n')

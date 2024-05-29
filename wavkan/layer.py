@@ -63,6 +63,6 @@ class MexhatWaveletKanLayer(nn.Module):
 
     def forward(self, x):
 
-        x = mexhat_wavelet(x, self.scale, self.bias, self.weight)
+        x = mexhat_wavelet(x.contiguous(), self.scale, self.bias, self.weight)
 
         return self.bn(x)

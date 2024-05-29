@@ -6,8 +6,8 @@ from typing import *
 from torch.autograd import Function
 import einops as ein
 
-# import faster_ops 
-import mexhat_ops
+# import mexhat_ops
+import optim_mexhat_ops as mexhat_ops
 import morlet_ops
 
 class MorletWaveletFunction(Function):
