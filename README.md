@@ -1,11 +1,12 @@
 # CUDA implementation of Wavelet KAN
 
-## See also
-
-- Other CUDA implementations of KAN:
+- See Also other CUDA implementations of KAN:
    - [Legendre Polynomials](https://github.com/Da1sypetals/Legendre-KAN-cuda)
    - [Chebyshev Polynomials](https://github.com/Da1sypetals/ChebyKan-cuda-op)
    - [RSWAF (variant of RBF)](https://github.com/Da1sypetals/faster-kan-cuda)
+
+- I am interested in the performance aspect of KAN, and willing to discuss / recieve more information on this topic :)
+- This is for personal practice purposes, use at your own risk. Tested on my RTX3050 as well as a remote RTX3090 on CUDA 12.x .
 
 
 ## Introduction
