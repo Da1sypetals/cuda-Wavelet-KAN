@@ -25,6 +25,8 @@ __global__ void fwd_kernel(const torch::PackedTensorAccessor64<float, 2> x,
     int iout = idx / (batch_size_padded * in_feats);
 
     float s, b, w;
+    // must ensure a warp has same iout and iin
+    // <=> a batch is a multiple of 32
     if (in_warp_idx == 0)
     {
         s = scale[iout][iin];
@@ -53,7 +55,6 @@ __global__ void fwd_kernel(const torch::PackedTensorAccessor64<float, 2> x,
         result[iout][iin][ibatch] = u;
     }
 }
-
 
 __global__ void bwd_kernel(const torch::PackedTensorAccessor64<float, 2> gout,
                            const torch::PackedTensorAccessor64<float, 2> x,
@@ -97,10 +98,6 @@ __global__ void bwd_kernel(const torch::PackedTensorAccessor64<float, 2> gout,
         grad_w_expand[ibatch][iout][iin] = gout_val * g_w;
     }
 }
-
-
-
-
 
 void fwd_launcher(const torch::PackedTensorAccessor64<float, 2> x,
                   const torch::PackedTensorAccessor64<float, 2> scale,
