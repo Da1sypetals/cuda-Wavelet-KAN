@@ -21,9 +21,8 @@ trainloader = DataLoader(trainset, batch_size=64, shuffle=True)
 valloader = DataLoader(valset, batch_size=64, shuffle=False)
 
 
-# raise NotImplementedError()
-from wavkan.net import Net
-# from wavkan.baseline_net import Net
+from gemmkan.net import Net
+# from wavkan.net import Net
 model = Net()
 
 
@@ -41,7 +40,12 @@ for epoch in range(10):
     model.train()
     with tqdm(trainloader) as pbar:
         for i, (images, labels) in enumerate(pbar):
-            images = images.view(-1, 28 * 28).to(device)
+            images = images.view(-1, 28 * 28)
+            batch_size_truncated = images.size(0) // 64 * 64
+            if batch_size_truncated < 1:
+                continue
+            images = images[:batch_size_truncated, :768].to(device)
+            images = images.to(device)
             optimizer.zero_grad()
             output = model(images)
             # print('forward\n')
@@ -60,13 +64,16 @@ for epoch in range(10):
             # print(_loss)
 
     # Validation
-    model.eval()
+    # model.eval()
     val_loss = 0
     val_accuracy = 0
     with torch.no_grad():
         for images, labels in valloader:
-            images = images.view(-1, 28 * 28).to(device)
-            images = images.to(device)
+            images = images.view(-1, 28 * 28)
+            batch_size_truncated = images.size(0) // 64 * 64
+            if batch_size_truncated < 1:
+                continue
+            images = images[:batch_size_truncated, :768].to(device)
             output = model(images)
             val_loss += criterion(output, labels.to(device)).item()
             val_accuracy += (

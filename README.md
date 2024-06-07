@@ -8,6 +8,21 @@
 - I am interested in the performance aspect of KAN, and willing to discuss / recieve more information on this topic :)
 - This is for personal practice purposes, use at your own risk. Tested on my RTX3050 as well as a remote RTX3090 on CUDA 12.x .
 
+## Update:
+- A **much** faster implementation is updated, but please note:
+   - Since the implementation uses tiling, assertions are opened by default to make sure that tensor conform to the restrictions.
+   - If a NaN emerges during training, please first check that all dimensions are divisible by 64. If that does not solve, feel free to open an issue. 
+   - Currently only forward is optimized, but optimizing backward is mathematically similar. Maybe it will be done after my examinations...
+   - I am a cuda beginner, and I am grateful for any optimization suggestion : )
+- Thanks https://github.com/siboehm/SGEMM_CUDA for the optimized `SGEMM` code, I adopted it with some modification and got the implementation.
+
+results on RTX3050:
+```
+          |      forward  |     backward  |      forward  |     backward  |   num params  |  num trainable params
+---------------------------------------------------------------------------------------------------------------------------
+cuda-gpu  |    117.24 ms  |    651.21 ms  |      1.10 GB  |      4.12 GB  |     12787840  |              12787840
+gemm-gpu  |     26.21 ms  |    678.70 ms  |      0.10 GB  |      4.12 GB  |     12787840  |              12787840
+```
 
 ## Introduction
 
@@ -51,7 +66,7 @@ pip install -e .
 3. Benchmark
 
 ```bash
-python benchmark.py --method all --reps 100 --just-cuda
+python benchmark.py --method all --reps 10 --just-cuda
 ```
 
 ---
