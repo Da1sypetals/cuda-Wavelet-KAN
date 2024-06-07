@@ -11,7 +11,7 @@
 ## Update:
 - A **much** faster implementation is updated, but please note:
    - Since the implementation uses tiling, assertions are opened by default to make sure that tensor conform to the restrictions.
-   - If a NaN emerges during training, please first check that all dimensions are divisible by 64. If that does not solve, feel free to open an issue. 
+   - If a NaN emerges during training, please first check that all dimensions are divisible by 64. If that does not solve, feel free to open an issue(but chances are high that I cannot solve either). 
    - Currently only forward is optimized, but optimizing backward is mathematically similar. Maybe it will be done after my examinations...
    - I am a cuda beginner, and I am grateful for any optimization suggestion : )
 - Thanks https://github.com/siboehm/SGEMM_CUDA for the optimized `SGEMM` code, I adopted it with some modification and got the implementation.
