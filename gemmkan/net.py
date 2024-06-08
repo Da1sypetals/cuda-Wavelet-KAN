@@ -8,8 +8,8 @@ class Net(nn.Module):
     def __init__(self):
         super().__init__()
         self.layer1 = Layer(768, 256)
-        self.layer2 = Layer(256, 256)
-        self.layer3 = nn.Linear(256, 10)
+        self.layer2 = Layer(256, 128)
+        self.layer3 = nn.Linear(128, 10)
 
     def forward(self, x):
         x = self.layer1(x)

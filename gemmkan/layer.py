@@ -21,10 +21,15 @@ from .wavelet import mexhat_wavelet
 
 
 class MexhatWaveletKanLayer(nn.Module):
+
+    @property
+    def minimum_dim_size(self):
+        return 128
+
     def __init__(self, in_features, out_features, assertion=True):
 
-        assert in_features % 64 == 0, "Require (in_features % 64 == 0)!"
-        assert out_features % 64 == 0, "Require (out_features % 64 == 0)!"
+        assert in_features % self.minimum_dim_size == 0, f"Require (in_features % {self.minimum_dim_size} == 0)!"
+        assert out_features % self.minimum_dim_size == 0, f"Require (in_features % {self.minimum_dim_size} == 0)!"
 
         super().__init__()
 
@@ -47,7 +52,7 @@ class MexhatWaveletKanLayer(nn.Module):
     def forward(self, x):
         
         if self.assertion:
-            assert x.size(0) % 64 == 0, "Require (input.size(0) % 64 == 0)!"
+            assert x.size(0) % self.minimum_dim_size == 0, f"Require (in_features % {self.minimum_dim_size} == 0)!"
 
         x = mexhat_wavelet(x, self.scale, self.bias, self.weight)
 

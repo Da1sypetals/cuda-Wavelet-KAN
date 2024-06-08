@@ -22,29 +22,31 @@ setup(
         #      './baseline_cpp/wav_cuda.cu',],
         #       extra_compile_args=extra_compile_args
         # ),
+        # # CUDAExtension(
+        # #     'optim_mexhat_ops', # operator name
+        # #     ['./cpp/wav.cpp',
+        # #      './cpp/wav_cuda.cu',]
+        # # ),
+        # # CUDAExtension(
+        # #     'morlet_ops', # operator name
+        # #     ['./morlet/morlet.cpp',
+        # #      './morlet/morlet_cuda.cu',]
+        # # ),
         # CUDAExtension(
-        #     'optim_mexhat_ops', # operator name
-        #     ['./cpp/wav.cpp',
-        #      './cpp/wav_cuda.cu',]
-        # ),
-        # CUDAExtension(
-        #     'morlet_ops', # operator name
-        #     ['./morlet/morlet.cpp',
-        #      './morlet/morlet_cuda.cu',]
-        # ),
-        CUDAExtension(
-            'gemm_ops', # operator name
-            ['./gemm_cpp/wav.cpp',
-             './gemm_cpp/wav_cuda.cu',
-             './gemm_cpp/gemm.cu',
-             ],
-        ),
-        # CUDAExtension(
-        #     'mmops', # operator name
-        #     ['./matmul/mm.cpp',
-        #      './matmul/mm_cuda.cu',
+        #     'gemm_ops', # operator name
+        #     ['./gemm_cpp/wav.cpp',
+        #      './gemm_cpp/wav_cuda.cu',
+        #      './gemm_cpp/gemm.cu',
         #      ],
         # ),
+        CUDAExtension(
+            'mmops', # operator name
+            ['./matmul/mm.cpp',
+             './matmul/mm_cuda.cu',
+             './matmul/mm_autotune.cu',
+             './matmul/mm_new.cu',
+             ],
+        ),
     ],
     cmdclass={
         'build_ext': BuildExtension

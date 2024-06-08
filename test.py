@@ -17,12 +17,12 @@ trainset = torchvision.datasets.MNIST(
 valset = torchvision.datasets.MNIST(
     root="./data", train=False, download=True, transform=transform
 )
-trainloader = DataLoader(trainset, batch_size=64, shuffle=True)
-valloader = DataLoader(valset, batch_size=64, shuffle=False)
+trainloader = DataLoader(trainset, batch_size=128, shuffle=True)
+valloader = DataLoader(valset, batch_size=128, shuffle=False)
 
 
-from gemmkan.net import Net
-# from wavkan.net import Net
+# from gemmkan.net import Net
+from wavkan.net import Net
 model = Net()
 
 
@@ -41,7 +41,7 @@ for epoch in range(10):
     with tqdm(trainloader) as pbar:
         for i, (images, labels) in enumerate(pbar):
             images = images.view(-1, 28 * 28)
-            batch_size_truncated = images.size(0) // 64 * 64
+            batch_size_truncated = images.size(0) // 128 * 128
             if batch_size_truncated < 1:
                 continue
             images = images[:batch_size_truncated, :768].to(device)
@@ -70,7 +70,7 @@ for epoch in range(10):
     with torch.no_grad():
         for images, labels in valloader:
             images = images.view(-1, 28 * 28)
-            batch_size_truncated = images.size(0) // 64 * 64
+            batch_size_truncated = images.size(0) // 128 * 128
             if batch_size_truncated < 1:
                 continue
             images = images[:batch_size_truncated, :768].to(device)
