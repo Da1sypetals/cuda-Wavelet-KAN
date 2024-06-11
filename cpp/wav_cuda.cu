@@ -7,9 +7,7 @@
 #define INDEX3D(a, b, c, db, dc) (((a) * (db) * (dc) + (b) * (dc) + (c)))
 
 #define COEFF 0.867325070f
-
 #define MAX_DIM 2048
-
 #define ALL_THREADS_IN_WARP 0xFFFFFFFF
 
 __global__ void fwd_kernel(const torch::PackedTensorAccessor64<float, 2> x,
@@ -19,11 +17,8 @@ __global__ void fwd_kernel(const torch::PackedTensorAccessor64<float, 2> x,
                            torch::PackedTensorAccessor64<float, 3> result,
                            int batch_size, int batch_size_padded, int in_feats, int out_feats, int numThreads)
 {
-
     int idx = blockIdx.x * blockDim.x + threadIdx.x;
     int in_warp_idx = threadIdx.x % warpSize;
-
-    // x.size(): (batch_size, in_feats)
 
     int ibatch = idx % batch_size_padded;
     int iin = (idx / batch_size_padded) % in_feats;
@@ -47,9 +42,12 @@ __global__ void fwd_kernel(const torch::PackedTensorAccessor64<float, 2> x,
 
     if (ibatch < batch_size)
     {
+        float x_val;
+        if (in_warp_idx == 0) {
+            x_val = x[ibatch][iin];
+        }
 
-        /* optimization: should not access memory one time for each thread */
-        float x_val = x[ibatch][iin];
+        x_val = __shfl_sync(ALL_THREADS_IN_WARP, x_val, 0);
 
         float y2 = s * s * (x_val + b) * (x_val + b);
         float u = COEFF * w * (y2 - 1) * expf(-0.5f * y2);
